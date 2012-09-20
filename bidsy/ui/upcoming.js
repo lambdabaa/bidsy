@@ -31,7 +31,7 @@ goog.inherits(bidsy.ui.Upcoming, goog.ui.Component);
 
 /**
  * Displays the queue of upcoming auctions.
- * @param {Array} auctions are map representations of the auctions to show.
+ * @param {Array} auctions Map representations of the auctions to show.
  */
 bidsy.ui.Upcoming.prototype.show = function(auctions) {
   goog.dom.classes.add(this.getElement(), 'shown');
@@ -48,7 +48,7 @@ bidsy.ui.Upcoming.prototype.show = function(auctions) {
             'title': title
         });
 
-    var id = 'queued-' + auction['id'];
+    var id = 'queued-' + auction['_id'];
     queued.id = id;
     goog.dom.classes.add(queued, 'queued');
     goog.events.listen(queued, goog.events.EventType.CLICK,
@@ -67,7 +67,7 @@ bidsy.ui.Upcoming.prototype.show = function(auctions) {
 
 /**
  * Updates the current selected auction to the parameter one.
- * @param {goog.events.Event} e is the queued click event.
+ * @param {goog.events.Event} e The queued click event.
  * @private
  */
 bidsy.ui.Upcoming.prototype.onQueuedClick_ = function(e) {

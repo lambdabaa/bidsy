@@ -119,8 +119,8 @@ bidsy.App.prototype.onCategory_ = function(e) {
   this.rightSidebar_.wipe();
   bidsy.Client.getInstance().joinRoom({ 'category': e['category'] },
       function(response) {
-        console.log(response);
         if (response['auctions'].length > 0) {
+          // TODO(gareth): Can we pass context here?
           bidsy.App.getInstance().mainContainer_.show(response['auctions'][0]);
           bidsy.App.getInstance().rightSidebar_.show(response['auctions']);
         }
@@ -160,8 +160,8 @@ bidsy.App.prototype.onSell_ = function(e) {
  * @private
  */
 bidsy.App.prototype.onUpcoming_ = function(e) {
-  // TODO(gareth)
-  console.log('onUpcoming_');
+  this.mainContainer_.wipeAuction();
+  this.mainContainer_.show(e['auction']);
 };
 
 

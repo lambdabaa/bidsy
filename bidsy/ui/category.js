@@ -37,7 +37,7 @@ bidsy.ui.Category.prototype.exitDocument = function() {
  * Gets called when a category is clicked. Then sets this category as the
  * selected one in the DOM and dispatches an event to indicate that we're
  * selecting this element.
- * @param {goog.events.Event} e is the CLICK event.
+ * @param {goog.events.Event} e The CLICK event.
  * @private
  */
 bidsy.ui.Category.prototype.setSelected_ = function(e) {

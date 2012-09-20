@@ -19,7 +19,7 @@ goog.inherits(bidsy.ui.Stage, goog.ui.Component);
 
 /**
  * Displays the new auction.
- * @param {Object} auction is a map representation of the auction to show.
+ * @param {Object} auction A map representation of the auction to show.
  */
 bidsy.ui.Stage.prototype.show = function(auction) {
   soy.renderElement(

@@ -7,7 +7,7 @@ goog.require('bidsy.ui.bidder');
 /**
  * @constructor
  * @extends {goog.ui.Component}
- * @param {Object} userinfo is a map of user attrs.
+ * @param {Object} userinfo A map of user attrs.
  */
 bidsy.ui.Bidder = function(userinfo) {
   goog.base(this);

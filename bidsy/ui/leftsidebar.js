@@ -57,7 +57,7 @@ bidsy.ui.LeftSidebar.prototype.exitDocument = function() {
 
 
 /**
- * @param {goog.events.Event} e is the CATEGORY event.
+ * @param {goog.events.Event} e The CATEGORY event.
  * @private
  */
 bidsy.ui.LeftSidebar.prototype.onCategory_ = function(e) {

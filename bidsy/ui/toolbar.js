@@ -1,8 +1,10 @@
 
 goog.provide('bidsy.ui.Toolbar');
 
-goog.require('goog.ui.Component');
 goog.require('bidsy.ui.toolbar');
+goog.require('goog.ui.Component');
+goog.require('goog.Timer');
+goog.require('soy');
 
 
 
@@ -14,11 +16,10 @@ bidsy.ui.Toolbar = function() {
   goog.base(this);
 
   /**
-   * Unique interval ID for the countdown ticker.
-   * @type {?number}
+   * @type {goog.Timer}
    * @private
    */
-  this.ticker_ = null;
+  this.timer_ = null;
 
   /**
    * Time at which the currently shown auction expires.
@@ -31,19 +32,26 @@ goog.inherits(bidsy.ui.Toolbar, goog.ui.Component);
 
 
 bidsy.ui.Toolbar.prototype.show = function(auction) {
-  var bid = this.getBid_(auction);
   var fragment = soy.renderAsFragment(bidsy.ui.toolbar.main, {
-      'bid': bid
+      bid: this.getBid_(auction)
   });
   goog.dom.appendChild(this.getElement(), /** @type {Node} */ (fragment));
 
-  this.ticker_ = setInterval(goog.bind(this.setTimeRemaining_, this), 1);
+  this.timer_ = new goog.Timer(100);
+  this.timer_.addEventListener(goog.Timer.TICK, 
+                               goog.bind(this.setTimeRemaining_, this));
+  this.timer_.start();
+
   this.expiration_ = auction['expiration'];
 };
 
 
 bidsy.ui.Toolbar.prototype.wipe = function() {
-  clearInterval(this.ticker_);
+  if (this.timer_) {
+    this.timer_.stop();
+    this.timer_.dispose();
+  }
+
   this.getElement().innerHTML = '';
 };
 
@@ -61,9 +69,10 @@ bidsy.ui.Toolbar.prototype.getBid_ = function(auction) {
     }
   }, this);
 
-  high = high || 0.0;
-  high = high.toString();
-  if (high.split('\.')[1].length == 1) {
+  high = high.toString() || '0.0';
+  if (high.indexOf('\.') == -1) {
+    high += '.00';
+  } else if (high.split('\.')[1].length == 1) {
     high += '0';
   }
 
@@ -75,7 +84,7 @@ bidsy.ui.Toolbar.prototype.getBid_ = function(auction) {
  * @private
  */
 bidsy.ui.Toolbar.prototype.setTimeRemaining_ = function() {
-  var now = new Date().getTime() / 1000;
+  var now = goog.now() / 1000;
   var remaining = this.expiration_ - now;
 
   var hours = Math.floor(remaining / 3600);

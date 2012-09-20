@@ -1,9 +1,9 @@
 
 goog.provide('bidsy.ui.Pit');
 
-goog.require('goog.ui.Component');
 goog.require('bidsy.ui.Bidder');
 goog.require('bidsy.ui.Toolbar');
+goog.require('goog.ui.Component');
 
 
 
@@ -39,7 +39,7 @@ bidsy.ui.Pit.prototype.enterDocument = function() {
 
 /**
  * Shows the pit.
- * @param {Object} auction is a map representation of the auction to show.
+ * @param {Object} auction A map representation of the auction to show.
  */
 bidsy.ui.Pit.prototype.show = function(auction) {
   this.toolbar_.show(auction);

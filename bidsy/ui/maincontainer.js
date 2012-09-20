@@ -1,9 +1,9 @@
 
 goog.provide('bidsy.ui.MainContainer');
 
-goog.require('goog.ui.Component');
 goog.require('bidsy.ui.Pit');
 goog.require('bidsy.ui.Stage');
+goog.require('goog.ui.Component');
 
 
 
@@ -40,7 +40,7 @@ bidsy.ui.MainContainer.prototype.enterDocument = function() {
 
 /**
  * Displays the new auction.
- * @param {Object} auction is a map representation of the auction to show.
+ * @param {Object} auction A map representation of the auction to show.
  */
 bidsy.ui.MainContainer.prototype.show = function(auction) {
   this.stage_.show(auction);

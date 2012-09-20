@@ -198,12 +198,12 @@ bidsy.ui.SellContainer.prototype.enterDocument = function() {
                      goog.events.EventType.CLICK,
                      this.onAuctionNext_, false, this);
 
-  this.datepicker_.decorate(goog.dom.getElement('datepicker'));
+  this.datepicker_.decorate(goog.dom.getElement('auction-date'));
   goog.events.listen(this.datepicker_.getElement(),
                      goog.events.EventType.CHANGE,
                      this.onDatepickerChange_, false, this);
 
-  this.timepicker_.decorate(goog.dom.getElement('timepicker'));
+  this.timepicker_.decorate(goog.dom.getElement('auction-time'));
   goog.events.listen(this.timepicker_.getElement(),
                      goog.events.EventType.CHANGE,
                      this.onTimepickerChange_, false, this);
@@ -280,7 +280,7 @@ bidsy.ui.SellContainer.prototype.exitDocument = function() {
 
 
 /**
- * @param {goog.events.Event} e is the CLICK event.
+ * @param {goog.events.Event} e The CLICK event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onItemTabClick_ = function(e) {
@@ -289,7 +289,7 @@ bidsy.ui.SellContainer.prototype.onItemTabClick_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CLICK event.
+ * @param {goog.events.Event} e The CLICK event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onAuctionTabClick_ = function(e) {
@@ -298,7 +298,7 @@ bidsy.ui.SellContainer.prototype.onAuctionTabClick_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CLICK event.
+ * @param {goog.events.Event} e The CLICK event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onPaymentTabClick_ = function(e) {
@@ -307,7 +307,7 @@ bidsy.ui.SellContainer.prototype.onPaymentTabClick_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CLICK event.
+ * @param {goog.events.Event} e The CLICK event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onShareTabClick_ = function(e) {
@@ -316,7 +316,7 @@ bidsy.ui.SellContainer.prototype.onShareTabClick_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CLICK event.
+ * @param {goog.events.Event} e The CLICK event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onItemNext_ = function(e) {
@@ -369,7 +369,7 @@ bidsy.ui.SellContainer.prototype.onItemNext_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CLICK event.
+ * @param {goog.events.Event} e The CLICK event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onAuctionNext_ = function(e) {
@@ -413,7 +413,7 @@ bidsy.ui.SellContainer.prototype.onAuctionNext_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CLICK event.
+ * @param {goog.events.Event} e The CLICK event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onSellSubmit_ = function(e) {
@@ -454,7 +454,7 @@ bidsy.ui.SellContainer.prototype.onSellSubmit_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CHANGE event.
+ * @param {goog.events.Event} e The CHANGE event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onCategoryChange_ = function(e) {
@@ -477,7 +477,7 @@ bidsy.ui.SellContainer.prototype.onCategoryChange_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CHANGE event.
+ * @param {goog.events.Event} e The CHANGE event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onTitleChange_ = function(e) {
@@ -502,7 +502,7 @@ bidsy.ui.SellContainer.prototype.onTitleChange_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CHANGE event.
+ * @param {goog.events.Event} e The CHANGE event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onDescriptionChange_ = function(e) {
@@ -525,7 +525,7 @@ bidsy.ui.SellContainer.prototype.onDescriptionChange_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CHANGE event.
+ * @param {goog.events.Event} e The CHANGE event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onConditionChange_ = function(e) {
@@ -534,7 +534,7 @@ bidsy.ui.SellContainer.prototype.onConditionChange_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CHANGE event.
+ * @param {goog.events.Event} e The CHANGE event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onPicturesChange_ = function(e) {
@@ -558,7 +558,7 @@ bidsy.ui.SellContainer.prototype.onPicturesChange_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CHANGE event.
+ * @param {goog.events.Event} e The CHANGE event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onDatepickerChange_ = function(e) {
@@ -582,7 +582,7 @@ bidsy.ui.SellContainer.prototype.onDatepickerChange_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CHANGE event.
+ * @param {goog.events.Event} e The CHANGE event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onTimepickerChange_ = function(e) {
@@ -606,7 +606,7 @@ bidsy.ui.SellContainer.prototype.onTimepickerChange_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the CHANGE event.
+ * @param {goog.events.Event} e The CHANGE event.
  * @private
  */
 bidsy.ui.SellContainer.prototype.onMinimumChange_ = function(e) {
@@ -628,6 +628,9 @@ bidsy.ui.SellContainer.prototype.onMinimumChange_ = function(e) {
 };
 
 
+/**
+ * @private
+ */
 bidsy.ui.SellContainer.prototype.getCheckedCategories_ = function() {
   var categories = [];
   goog.array.forEach(goog.dom.getElementsByClass('category-checkbox'),
@@ -641,6 +644,9 @@ bidsy.ui.SellContainer.prototype.getCheckedCategories_ = function() {
 };
 
 
+/**
+ * @private
+ */
 bidsy.ui.SellContainer.prototype.getCategoriesError_ = function() {
   var categories = this.getCheckedCategories_();
   if (categories.length < 1 || categories.length > 3) {
@@ -649,6 +655,9 @@ bidsy.ui.SellContainer.prototype.getCategoriesError_ = function() {
 };
 
 
+/**
+ * @private
+ */
 bidsy.ui.SellContainer.prototype.getTitleError_ = function() {
   var value = this.title_.getElement().value;
   if (value.length < 5 || value.length > 80) {
@@ -661,6 +670,9 @@ bidsy.ui.SellContainer.prototype.getTitleError_ = function() {
 };
 
 
+/**
+ * @private
+ */
 bidsy.ui.SellContainer.prototype.getDescriptionError_ = function() {
   var value = this.description_.getElement().value;
   if (value.length < 10 || value.length > 200) {
@@ -673,11 +685,17 @@ bidsy.ui.SellContainer.prototype.getDescriptionError_ = function() {
 };
 
 
+/**
+ * @private
+ */
 bidsy.ui.SellContainer.prototype.getConditionError_ = function() {
   // TODO(gareth)
 };
 
 
+/**
+ * @private
+ */
 bidsy.ui.SellContainer.prototype.getPicturesError_ = function() {
   var value = this.pictures_.getElement().value;
   if (/^\s*$/.test(value)) {
@@ -694,6 +712,9 @@ bidsy.ui.SellContainer.prototype.getPicturesError_ = function() {
 };
 
 
+/**
+ * @private
+ */
 bidsy.ui.SellContainer.prototype.getDatepickerError_ = function() {
   // TODO(gareth): Make sure that this day is today or after
   var value = this.datepicker_.getElement().value;
@@ -706,6 +727,9 @@ bidsy.ui.SellContainer.prototype.getDatepickerError_ = function() {
 };
 
 
+/**
+ * @private
+ */
 bidsy.ui.SellContainer.prototype.getTimepickerError_ = function() {
   // TODO(gareth): Make sure that this time is now or after
   var value = this.timepicker_.getElement().value;
@@ -718,6 +742,9 @@ bidsy.ui.SellContainer.prototype.getTimepickerError_ = function() {
 };
 
 
+/**
+ * @private
+ */
 bidsy.ui.SellContainer.prototype.getMinimumError_ = function() {
   var value = this.minimum_.getElement().value;
   // TODO(gareth): Use an all-whitespace regex here
@@ -733,7 +760,7 @@ bidsy.ui.SellContainer.prototype.getMinimumError_ = function() {
 
 
 /**
- * @param {bidsy.ui.SellContainer.Mode} mode is the sell mode to switch to.
+ * @param {bidsy.ui.SellContainer.Mode} mode The sell mode to switch to.
  * @private
  */
 bidsy.ui.SellContainer.prototype.setMode_ = function(mode) {

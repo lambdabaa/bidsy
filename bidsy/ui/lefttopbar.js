@@ -58,7 +58,7 @@ bidsy.ui.LeftTopbar.prototype.exitDocument = function() {
 
 /**
  * Gets called when someone clicks the big 'home' button.
- * @param {goog.events.Event} e is the CLICK event.
+ * @param {goog.events.Event} e The CLICK event.
  * @private
  */
 bidsy.ui.LeftTopbar.prototype.onHomeButtonClick_ = function(e) {
@@ -68,7 +68,7 @@ bidsy.ui.LeftTopbar.prototype.onHomeButtonClick_ = function(e) {
 
 /**
  * Gets called when someone clicks the big 'sell something' button.
- * @param {goog.events.Event} e is the CLICK event.
+ * @param {goog.events.Event} e The CLICK event.
  * @private
  */
 bidsy.ui.LeftTopbar.prototype.onSellButtonClick_ = function(e) {

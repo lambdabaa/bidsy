@@ -43,7 +43,7 @@ bidsy.ui.Topbar.prototype.exitDocument = function() {
 
 
 /**
- * @param {goog.events.Event} e is the CLICK event.
+ * @param {goog.events.Event} e The CLICK event.
  * @private
  */
 bidsy.ui.Topbar.prototype.onLogoClick_ = function(e) {
