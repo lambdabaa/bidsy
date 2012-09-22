@@ -4,6 +4,7 @@ goog.provide('bidsy.ui.Bidder');
 goog.require('bidsy.ui.bidder');
 
 
+
 /**
  * @constructor
  * @extends {goog.ui.Component}

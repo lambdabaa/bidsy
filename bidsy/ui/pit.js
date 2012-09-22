@@ -37,6 +37,7 @@ bidsy.ui.Pit.prototype.enterDocument = function() {
   this.toolbar_.decorate(goog.dom.getElementByClass('toolbar'));
 };
 
+
 /**
  * Shows the pit.
  * @param {Object} auction A map representation of the auction to show.
@@ -44,6 +45,7 @@ bidsy.ui.Pit.prototype.enterDocument = function() {
 bidsy.ui.Pit.prototype.show = function(auction) {
   this.toolbar_.show(auction);
 };
+
 
 /**
  * Wipes the pit.

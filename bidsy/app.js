@@ -200,7 +200,7 @@ bidsy.App.prototype.setMode_ = function(mode) {
   }
 
   this.mode_ = mode;
-}
+};
 
 
 /** @enum {string} */

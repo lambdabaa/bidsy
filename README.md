@@ -10,3 +10,7 @@ Build the production javascript by running:
   `java -jar plovr-4b3caf2b7d84.jar build config.json > bidsy.js`
 
 Make sure that you lint your code with `gjslint` before checking in!
+
+## Random and Useful
+
+`gjslint --strict bidsy/* bidsy/ui/* externs/* | grep --invert-match "0001\|0006\|0120"`

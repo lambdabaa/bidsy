@@ -1,8 +1,8 @@
 
 goog.provide('bidsy.ui.Upcoming');
 
-goog.require('goog.ui.Component');
 goog.require('bidsy.ui.upcoming');
+goog.require('goog.ui.Component');
 
 
 
@@ -44,8 +44,8 @@ bidsy.ui.Upcoming.prototype.show = function(auctions) {
     var queued = soy.renderAsElement(
         bidsy.ui.upcoming.main,
         {
-            'images': auction['images'],
-            'title': title
+            'images': auction['images']
+          , 'title': title
         });
 
     var id = 'queued-' + auction['_id'];

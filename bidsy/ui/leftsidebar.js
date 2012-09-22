@@ -1,8 +1,8 @@
 
 goog.provide('bidsy.ui.LeftSidebar');
 
-goog.require('goog.ui.Component');
 goog.require('bidsy.ui.Category');
+goog.require('goog.ui.Component');
 
 
 

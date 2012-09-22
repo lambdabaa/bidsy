@@ -1,10 +1,9 @@
 
-/**
- */
+
 var console = {};
 
 
 /**
- * @param {...} varargs
+ * @param {...} varargs The arguments passed to console.log.
  */
 console.log = function(varargs) {};

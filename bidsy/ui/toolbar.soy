@@ -2,6 +2,7 @@
 
 /**
  * @param bid The bid amount to display.
+ * @param timeRemaining The hour, minute, and seconds remaining.
  */
 {template .main}
   <table>
@@ -20,7 +21,7 @@
         <!-- Graciously provided by Nahas M.A. -->
         <!-- http://nahas-pro.deviantart.com/, iconfinder.com/icondetails/66976/48 -->
         <img src="/images/timer.png" class="bid-image" />
-        <div class="bid-text bid-timer"></div>
+        <div class="bid-text bid-timer">{$timeRemaining['hours']}:{$timeRemaining['minutes']}:{$timeRemaining['seconds']}</div>
       </td>
       <td>
         <button class="btn btn-large btn-danger btn-bid">Bid Now!</button>

@@ -1,7 +1,7 @@
 
 goog.provide('bidsy.ui.LeftTopbar');
 
-goog.require('bidsy.ui.EventType')
+goog.require('bidsy.ui.EventType');
 goog.require('goog.events');
 goog.require('goog.ui.Component');
 

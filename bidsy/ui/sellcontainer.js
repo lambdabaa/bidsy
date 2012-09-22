@@ -59,31 +59,7 @@ bidsy.ui.SellContainer = function() {
    * @type {goog.ui.Component}
    * @private
    */
-  this.auctionTab_ = new goog.ui.Component();
-
-  /**
-   * @type {goog.ui.Component}
-   * @private
-   */
-  this.auctionView_ = new goog.ui.Component();
-
-  /**
-   * @type {goog.ui.Component}
-   * @private
-   */
-  this.auctionNext_ = new goog.ui.Component();
-
-  /**
-   * @type {goog.ui.Component}
-   * @private
-   */
-  this.datepicker_ = new goog.ui.Component();
-
-  /**
-   * @type {goog.ui.Component}
-   * @private
-   */
-  this.timepicker_ = new goog.ui.Component();
+  this.duration_ = new goog.ui.Component();
 
   /**
    * @type {goog.ui.Component}
@@ -126,10 +102,9 @@ bidsy.ui.SellContainer = function() {
    * @private
    */
   this.tabs_ = [
-      {'label': this.itemTab_, 'view': this.itemView_},
-      {'label': this.auctionTab_, 'view': this.auctionView_},
-      {'label': this.paymentTab_, 'view': this.paymentView_},
-      {'label': this.shareTab_, 'view': this.shareView_}
+      { 'label': this.itemTab_, 'view': this.itemView_ }
+    , { 'label': this.paymentTab_, 'view': this.paymentView_ }
+    , { 'label': this.shareTab_, 'view': this.shareView_ }
   ];
 
   /**
@@ -137,7 +112,7 @@ bidsy.ui.SellContainer = function() {
    * @private
    */
   this.mode_ = bidsy.ui.SellContainer.Mode.ITEM;
-}
+};
 goog.inherits(bidsy.ui.SellContainer, goog.ui.Component);
 
 
@@ -180,35 +155,17 @@ bidsy.ui.SellContainer.prototype.enterDocument = function() {
                            this.onConditionChange_, false, this);
       }, this);
 
-  this.pictures_.decorate(goog.dom.getElement('item-pictures'));
+  this.pictures_.decorate(goog.dom.getElement('item-images'));
   goog.events.listen(this.pictures_.getElement(),
                      goog.events.EventType.CHANGE,
                      this.onPicturesChange_, false, this);
 
-  this.auctionTab_.decorate(goog.dom.getElementByClass('sell-auction'));
-  goog.events.listen(this.auctionTab_.getElement(),
-                     goog.events.EventType.CLICK,
-                     this.onAuctionTabClick_, false, this);
-
-  this.auctionView_.decorate(goog.dom.getElementByClass('auction-view'));
-  goog.style.showElement(this.auctionView_.getElement(), false);
-
-  this.auctionNext_.decorate(goog.dom.getElementByClass('auction-next'));
-  goog.events.listen(this.auctionNext_.getElement(),
-                     goog.events.EventType.CLICK,
-                     this.onAuctionNext_, false, this);
-
-  this.datepicker_.decorate(goog.dom.getElement('auction-date'));
-  goog.events.listen(this.datepicker_.getElement(),
+  this.duration_.decorate(goog.dom.getElement('item-duration'));
+  goog.events.listen(this.duration_.getElement(),
                      goog.events.EventType.CHANGE,
-                     this.onDatepickerChange_, false, this);
+                     this.onDurationChange_, false, this);
 
-  this.timepicker_.decorate(goog.dom.getElement('auction-time'));
-  goog.events.listen(this.timepicker_.getElement(),
-                     goog.events.EventType.CHANGE,
-                     this.onTimepickerChange_, false, this);
-
-  this.minimum_.decorate(goog.dom.getElement('minimum'));
+  this.minimum_.decorate(goog.dom.getElement('item-minimum'));
   goog.events.listen(this.minimum_.getElement(),
                      goog.events.EventType.CHANGE,
                      this.onMinimumChange_, false, this);
@@ -263,13 +220,6 @@ bidsy.ui.SellContainer.prototype.exitDocument = function() {
                              this.onConditionChange_);
       }, this);
 
-  goog.events.unlisten(this.auctionTab_.getElement(),
-                       goog.events.EventType.CLICK,
-                       this.onAuctionTabClick_);
-  goog.events.unlisten(this.auctionNext_.getElement(),
-                       goog.events.EventType.CLICK,
-                       this.onAuctionNext_);
-
   goog.events.unlisten(this.paymentTab_.getElement(),
                        goog.events.EventType.CLICK,
                        this.onPaymentTabClick_);
@@ -285,15 +235,6 @@ bidsy.ui.SellContainer.prototype.exitDocument = function() {
  */
 bidsy.ui.SellContainer.prototype.onItemTabClick_ = function(e) {
   this.setMode_(bidsy.ui.SellContainer.Mode.ITEM);
-};
-
-
-/**
- * @param {goog.events.Event} e The CLICK event.
- * @private
- */
-bidsy.ui.SellContainer.prototype.onAuctionTabClick_ = function(e) {
-  this.setMode_(bidsy.ui.SellContainer.Mode.AUCTION);
 };
 
 
@@ -350,7 +291,7 @@ bidsy.ui.SellContainer.prototype.onItemNext_ = function(e) {
     error = true;
   }
 
-  var picturesError = this.getPicturesError_();
+  var picturesError = this.getImagesError_();
   if (picturesError) {
     var parent = this.pictures_.getElement().parentNode;
     var grandparent = parent.parentNode;
@@ -359,37 +300,11 @@ bidsy.ui.SellContainer.prototype.onItemNext_ = function(e) {
     error = true;
   }
 
-  if (error) {
-    // TODO(gareth): Change this based on where we're having problems
-    window.scrollTo(0, 0);
-  } else {
-    this.setMode_(bidsy.ui.SellContainer.Mode.AUCTION);
-  }
-};
-
-
-/**
- * @param {goog.events.Event} e The CLICK event.
- * @private
- */
-bidsy.ui.SellContainer.prototype.onAuctionNext_ = function(e) {
-  // TODO(gareth): Send the partially complete form to the server
-  var error = false;
-
-  var datepickerError = this.getDatepickerError_();
-  if (datepickerError) {
-    var parent = this.datepicker_.getElement().parentNode;
+  var durationError = this.getDurationError_();
+  if (durationError) {
+    var parent = this.minimum_.getElement().parentNode.parentNode;
     var grandparent = parent.parentNode;
-    goog.dom.getLastElementChild(parent).innerHTML = datepickerError;
-    goog.dom.classes.add(grandparent, 'error');
-    error = true;
-  }
-
-  var timepickerError = this.getTimepickerError_();
-  if (timepickerError) {
-    var parent = this.timepicker_.getElement().parentNode;
-    var grandparent = parent.parentNode;
-    goog.dom.getLastElementChild(parent).innerHTML = timepickerError;
+    goog.dom.getLastElementChild(parent).innerHTML = durationError;
     goog.dom.classes.add(grandparent, 'error');
     error = true;
   }
@@ -430,19 +345,17 @@ bidsy.ui.SellContainer.prototype.onSellSubmit_ = function(e) {
         }
       });
 
-  var pictures = goog.dom.getElement('item-pictures').value;
-  var date = goog.dom.getElement('datepicker').value;
-  var time = goog.dom.getElement('timepicker').value;
-  var minimum = goog.dom.getElement('minimum').value;
+  var images = goog.dom.getElement('item-images').value.split(',');
+  var duration = goog.dom.getElement('item-duration').value;
+  var minimum = goog.dom.getElement('item-minimum').value;
 
   bidsy.Client.getInstance().createAuction({
       'categories': categories
     , 'title': title
     , 'description': description
     , 'condition': condition
-    , 'pictures': pictures
-    , 'date': date
-    , 'time': time
+    , 'images': images
+    , 'duration': duration
     , 'minimum': minimum
   }, function(response) {
     // TODO(gareth)
@@ -473,7 +386,7 @@ bidsy.ui.SellContainer.prototype.onCategoryChange_ = function(e) {
     goog.dom.getLastElementChild(parent).innerHTML = 'OK';
     goog.dom.classes.add(grandparent, 'success');
   }
-}
+};
 
 
 /**
@@ -492,8 +405,6 @@ bidsy.ui.SellContainer.prototype.onTitleChange_ = function(e) {
   if (titleError) {
     goog.dom.getLastElementChild(parent).innerHTML = titleError;
     goog.dom.classes.add(grandparent, 'error');
-    goog.dom.getLastElementChild(parent).innerHTML = 'OK';
-    goog.dom.classes.add(grandparent, 'success');
   } else {
     goog.dom.getLastElementChild(parent).innerHTML = 'OK';
     goog.dom.classes.add(grandparent, 'success');
@@ -546,7 +457,7 @@ bidsy.ui.SellContainer.prototype.onPicturesChange_ = function(e) {
   goog.dom.classes.remove(grandparent, 'success');
   goog.dom.classes.remove(grandparent, 'error');
 
-  var picturesError = this.getPicturesError_();
+  var picturesError = this.getImagesError_();
   if (picturesError) {
     goog.dom.getLastElementChild(parent).innerHTML = picturesError;
     goog.dom.classes.add(grandparent, 'error');
@@ -561,42 +472,17 @@ bidsy.ui.SellContainer.prototype.onPicturesChange_ = function(e) {
  * @param {goog.events.Event} e The CHANGE event.
  * @private
  */
-bidsy.ui.SellContainer.prototype.onDatepickerChange_ = function(e) {
-  // TODO(gareth): This isn't triggered since JQuery sucks...
-  var parent = this.datepicker_.getElement().parentNode;
+bidsy.ui.SellContainer.prototype.onDurationChange_ = function(e) {
+  var parent = this.duration_.getElement().parentNode;
   var grandparent = parent.parentNode;
 
   goog.dom.getLastElementChild(parent).innerHTML = '';
   goog.dom.classes.remove(grandparent, 'success');
   goog.dom.classes.remove(grandparent, 'error');
 
-  var datepickerError = this.getDatepickerError_();
-  if (datepickerError) {
-    goog.dom.getLastElementChild(parent).innerHTML = datepickerError;
-    goog.dom.classes.add(grandparent, 'error');
-  } else {
-    goog.dom.getLastElementChild(parent).innerHTML = 'OK';
-    goog.dom.classes.add(grandparent, 'success');
-  }
-};
-
-
-/**
- * @param {goog.events.Event} e The CHANGE event.
- * @private
- */
-bidsy.ui.SellContainer.prototype.onTimepickerChange_ = function(e) {
-  // TODO(gareth): This isn't triggered since JQuery sucks...
-  var parent = this.timepicker_.getElement().parentNode;
-  var grandparent = parent.parentNode;
-
-  goog.dom.getLastElementChild(parent).innerHTML = '';
-  goog.dom.classes.remove(grandparent, 'success');
-  goog.dom.classes.remove(grandparent, 'error');
-
-  var timepickerError = this.getTimepickerError_();
-  if (timepickerError) {
-    goog.dom.getLastElementChild(parent).innerHTML = timepickerError;
+  var durationError = this.getDurationError_();
+  if (durationError) {
+    goog.dom.getLastElementChild(parent).innerHTML = durationError;
     goog.dom.classes.add(grandparent, 'error');
   } else {
     goog.dom.getLastElementChild(parent).innerHTML = 'OK';
@@ -629,6 +515,7 @@ bidsy.ui.SellContainer.prototype.onMinimumChange_ = function(e) {
 
 
 /**
+ * @return {Array} An array of string identifiers for categories.
  * @private
  */
 bidsy.ui.SellContainer.prototype.getCheckedCategories_ = function() {
@@ -645,17 +532,21 @@ bidsy.ui.SellContainer.prototype.getCheckedCategories_ = function() {
 
 
 /**
+ * @return {?string} A description of any problems with category input.
  * @private
  */
 bidsy.ui.SellContainer.prototype.getCategoriesError_ = function() {
   var categories = this.getCheckedCategories_();
   if (categories.length < 1 || categories.length > 3) {
-    return 'Auctions need at least one and at most three categories.';
+    return 'Auctions need between one and three categories.';
   }
+
+  return null;
 };
 
 
 /**
+ * @return {?string} A description of any problems with title input.
  * @private
  */
 bidsy.ui.SellContainer.prototype.getTitleError_ = function() {
@@ -671,6 +562,7 @@ bidsy.ui.SellContainer.prototype.getTitleError_ = function() {
 
 
 /**
+ * @return {?string} A description of any problems with description input.
  * @private
  */
 bidsy.ui.SellContainer.prototype.getDescriptionError_ = function() {
@@ -686,17 +578,20 @@ bidsy.ui.SellContainer.prototype.getDescriptionError_ = function() {
 
 
 /**
+ * @return {?string} A description of any problems with condition input.
  * @private
  */
 bidsy.ui.SellContainer.prototype.getConditionError_ = function() {
   // TODO(gareth)
+  return null;
 };
 
 
 /**
+ * @return {?string} A description of any problems with images input.
  * @private
  */
-bidsy.ui.SellContainer.prototype.getPicturesError_ = function() {
+bidsy.ui.SellContainer.prototype.getImagesError_ = function() {
   var value = this.pictures_.getElement().value;
   if (/^\s*$/.test(value)) {
     return 'You need to add at least one picture of the item!';
@@ -713,36 +608,17 @@ bidsy.ui.SellContainer.prototype.getPicturesError_ = function() {
 
 
 /**
+ * @return {?string} A description of any problems with duration input.
  * @private
  */
-bidsy.ui.SellContainer.prototype.getDatepickerError_ = function() {
-  // TODO(gareth): Make sure that this day is today or after
-  var value = this.datepicker_.getElement().value;
-  // TODO(gareth): Check regex mm/dd/yy
-  if (/^\s*$/.test(value)) {
-    return 'You need to specify a start date.';
-  }
-
+bidsy.ui.SellContainer.prototype.getDurationError_ = function() {
+  // TODO(gareth)
   return null;
 };
 
 
 /**
- * @private
- */
-bidsy.ui.SellContainer.prototype.getTimepickerError_ = function() {
-  // TODO(gareth): Make sure that this time is now or after
-  var value = this.timepicker_.getElement().value;
-  // TODO(gareth): Use a regex to check this time
-  if (/^\s*$/.test(value)) {
-    return 'You need to specify a start time.';
-  }
-
-  return null;
-};
-
-
-/**
+ * @return {?string} A description of any problems with minimum input.
  * @private
  */
 bidsy.ui.SellContainer.prototype.getMinimumError_ = function() {
@@ -776,10 +652,6 @@ bidsy.ui.SellContainer.prototype.setMode_ = function(mode) {
   }, this);
 
   switch (mode) {
-    case bidsy.ui.SellContainer.Mode.AUCTION:
-      goog.dom.classes.add(this.auctionTab_.getElement(), 'active');
-      goog.style.showElement(this.auctionView_.getElement(), true);
-      break;
     case bidsy.ui.SellContainer.Mode.ITEM:
       goog.dom.classes.add(this.itemTab_.getElement(), 'active');
       goog.style.showElement(this.itemView_.getElement(), true);
@@ -802,8 +674,7 @@ bidsy.ui.SellContainer.prototype.setMode_ = function(mode) {
 
 /** @enum {string} */
 bidsy.ui.SellContainer.Mode = {
-    AUCTION: 'auction'
-  , ITEM: 'item'
+    ITEM: 'item'
   , PAYMENT: 'payment'
   , SHARE: 'share'
 };

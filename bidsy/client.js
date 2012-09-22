@@ -13,14 +13,16 @@ goog.addSingletonGetter(bidsy.Client);
 
 /**
  * Establishes a connection to the socket.io server.
- * @private
  */
 bidsy.Client.prototype.init = function() {
+  // TODO(gareth): Move metadata about which socket host to connect to
+  // into metadata that gets passed into the closure app.
   /**
    * @type {io.SocketNamespace}
    * @private
    */
-  this.socket_ = io.connect('http://localhost', {
+  // this.socket_ = io.connect('http://localhost', {
+  this.socket_ = io.connect('http://auctet.herokuapp.com', {
       'sync disconnect on unload': true
   });
 
@@ -30,18 +32,19 @@ bidsy.Client.prototype.init = function() {
 
 /**
  * Writes a new auction to the database.
- * @param {Object} data is the new auction.
- * @param {Function} callback is a function to call once we get a response.
+ * @param {Object} data The new auction.
+ * @param {Function} callback A function to call once we get a response.
  */
 bidsy.Client.prototype.createAuction = function(data, callback) {
+  data['expiration'] = this.parseExpiration_(data['duration']);
   this.socket_.emit('createAuction', data, callback);
 };
 
 
 /**
  * Deletes an existing auction from the database.
- * @param {Object} data identifies the auction to be deleted.
- * @param {Function} callback is a function to call once we get a response.
+ * @param {Object} data Attributes identifying the auction to be deleted.
+ * @param {Function} callback A function to call once we get a response.
  */
 bidsy.Client.prototype.deleteAuction = function(data, callback) {
   // TODO(gareth)
@@ -51,8 +54,8 @@ bidsy.Client.prototype.deleteAuction = function(data, callback) {
 
 /**
  * Edits an existing auction in the database.
- * @param {Object} data is a delta to apply to the auction.
- * @param {Function} callback is a function to call once we get a response.
+ * @param {Object} data A delta to apply to the auction.
+ * @param {Function} callback A function to call once we get a response.
  */
 bidsy.Client.prototype.editAuction = function(data, callback) {
   // TODO(gareth)
@@ -62,8 +65,8 @@ bidsy.Client.prototype.editAuction = function(data, callback) {
 
 /**
  * Tell the server that we're joining a room.
- * @param {Object} data identifies the room we're joining.
- * @param {Function} callback is a function to call once we get a response.
+ * @param {Object} data Attributes identifying the room we're joining.
+ * @param {Function} callback A function to call once we get a response.
  */
 bidsy.Client.prototype.joinRoom = function(data, callback) {
   this.socket_.emit('joinRoom', data, callback);
@@ -71,7 +74,18 @@ bidsy.Client.prototype.joinRoom = function(data, callback) {
 
 
 /**
+ * @param {Array} data The collection of user delta objects.
  * @private
  */
 bidsy.Client.prototype.onUserDeltas_ = function(data) {
+};
+
+
+/**
+ * @param {string} duration Number of days until the auction expires.
+ * @return {number} A unix timestamp for when the auction will expire.
+ * @private
+ */
+bidsy.Client.prototype.parseExpiration_ = function(duration) {
+  return Math.floor(goog.now() / 1000) + duration * 24 * 60 * 60;
 };
