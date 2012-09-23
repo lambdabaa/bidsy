@@ -22,7 +22,7 @@ bidsy.Client.prototype.init = function() {
    * @private
    */
   // this.socket_ = io.connect('http://localhost', {
-  this.socket_ = io.connect('http://auctet.herokuapp.com', {
+  this.socket_ = io.connect('http://staging.auctet.com', {
       'sync disconnect on unload': true
   });
 
