@@ -78,6 +78,7 @@ bidsy.Client.prototype.joinRoom = function(data, callback) {
  * @private
  */
 bidsy.Client.prototype.onUserDeltas_ = function(data) {
+  console.log(data);
 };
 
 
