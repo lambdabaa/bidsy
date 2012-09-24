@@ -20,6 +20,6 @@
   , "inputs": [ "bidsy/app.js" ]
   , "jsdoc-html-output-path": "doc.html"
   , "level": "VERBOSE"
-  , "mode": "SIMPLE"
+  , "mode": "ADVANCED"
   , "paths": [ "bidsy" ]
 }

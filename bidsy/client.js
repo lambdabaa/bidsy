@@ -5,15 +5,18 @@ goog.provide('bidsy.Client');
 
 /**
  * @constructor
+ * @export
  */
 bidsy.Client = function() {
 };
 goog.addSingletonGetter(bidsy.Client);
+goog.exportSymbol('bidsy.Client.getInstance', bidsy.Client.getInstance);
 
 
 /**
  * Establishes a connection to the socket.io server.
  * @param {string} env One of 'dev' or 'prod'.
+ * @export
  */
 bidsy.Client.prototype.init = function(env) {
   /**
@@ -21,7 +24,8 @@ bidsy.Client.prototype.init = function(env) {
    * @private
    */
   this.socket_ = io.connect(
-      'http://' + (env == 'prod' ? 'staging.auctet.com' : 'localhost')
+      'http://' +
+      (env.replace(/\s+/, '') == 'prod' ? 'staging.auctet.com' : 'localhost')
     , { 'sync disconnect on unload': true }
   );
 

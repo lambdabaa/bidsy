@@ -17,10 +17,9 @@ goog.require('goog.events');
 
 /**
  * @constructor
- * @param {string} env One of 'dev' or 'prod'.
  * @export
  */
-bidsy.App = function(env) {
+bidsy.App = function() {
   /**
    * @type {bidsy.App.Mode}
    * @private
@@ -105,11 +104,9 @@ bidsy.App = function(env) {
   this.sellComponents_ = [
       this.sellContainer_
   ];
-
-  env = env.replace(/\s+/, '');
-  bidsy.Client.getInstance().init(env);
 };
 goog.addSingletonGetter(bidsy.App);
+goog.exportSymbol('bidsy.App.getInstance', bidsy.App.getInstance);
 
 
 /**
