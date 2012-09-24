@@ -106,6 +106,7 @@ bidsy.App = function(env) {
       this.sellContainer_
   ];
 
+  env = env.replace(/\s+/, '');
   bidsy.Client.getInstance().init(env);
 };
 goog.addSingletonGetter(bidsy.App);
