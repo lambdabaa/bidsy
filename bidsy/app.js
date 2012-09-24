@@ -209,6 +209,3 @@ bidsy.App.Mode = {
     BROWSE: 'browse'
   , SELL: 'sell'
 };
-
-
-goog.exportSymbol('bidsy.App.getInstance', bidsy.App.getInstance);
