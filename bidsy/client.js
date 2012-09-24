@@ -1,14 +1,21 @@
 
 goog.provide('bidsy.Client');
+goog.provide('bidsy.Client.EventType');
+
+goog.require('goog.events');
+goog.require('goog.events.EventTarget');
 
 
 
 /**
  * @constructor
+ * @extends {goog.events.EventTarget}
  * @export
  */
 bidsy.Client = function() {
+  goog.base(this);
 };
+goog.inherits(bidsy.Client, goog.events.EventTarget);
 goog.addSingletonGetter(bidsy.Client);
 goog.exportSymbol('bidsy.Client.getInstance', bidsy.Client.getInstance);
 
@@ -82,6 +89,10 @@ bidsy.Client.prototype.joinRoom = function(data, callback) {
  */
 bidsy.Client.prototype.onUserDeltas_ = function(data) {
   console.log(data);
+  this.dispatchEvent({
+      type: bidsy.Client.EventType.USER_DELTAS
+    , data: data
+  });
 };
 
 
@@ -92,4 +103,10 @@ bidsy.Client.prototype.onUserDeltas_ = function(data) {
  */
 bidsy.Client.prototype.parseExpiration_ = function(duration) {
   return Math.floor(goog.now() / 1000) + duration * 24 * 60 * 60;
+};
+
+
+/** @enum {string} */
+bidsy.Client.EventType = {
+  USER_DELTAS: 'user_deltas'
 };

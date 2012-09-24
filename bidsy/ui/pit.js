@@ -62,3 +62,26 @@ bidsy.ui.Pit.prototype.wipe = function() {
 bidsy.ui.Pit.prototype.wipeAuction = function() {
   this.toolbar_.wipe();
 };
+
+
+/**
+ * @param {Array} deltas An array of user join/leaves.
+ */
+bidsy.ui.Pit.prototype.onUserDeltas = function(deltas) {
+  goog.array.forEach(deltas, function(delta) {
+    switch (delta['sign']) {
+      case '+':
+        var bidder = new bidsy.ui.Bidder(delta['user']);
+        this.addChild(bidder, true);
+        this.socketIdToBidder_[delta['id']] = bidder;
+        break;
+      case '-':
+        var bidder = this.socketIdToBidder_[delta['id']];
+        this.removeChild(bidder, true);
+        delete this.socketIdToBidder_[delta['id']];
+        break;
+      default:
+        break;
+    }
+  }, this);
+};

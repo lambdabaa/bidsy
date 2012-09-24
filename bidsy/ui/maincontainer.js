@@ -64,3 +64,11 @@ bidsy.ui.MainContainer.prototype.wipeAuction = function() {
   this.stage_.wipe();
   this.pit_.wipeAuction();
 };
+
+
+/**
+ * @param {Array} deltas An array of user join/leaves.
+ */
+bidsy.ui.MainContainer.prototype.onUserDeltas = function(deltas) {
+  this.pit_.onUserDeltas(deltas);
+};

@@ -104,6 +104,10 @@ bidsy.App = function() {
   this.sellComponents_ = [
       this.sellContainer_
   ];
+
+  goog.events.listen(bidsy.Client.getInstance(),
+                     bidsy.Client.EventType.USER_DELTAS,
+                     this.onUserDeltas_, false, this);
 };
 goog.addSingletonGetter(bidsy.App);
 goog.exportSymbol('bidsy.App.getInstance', bidsy.App.getInstance);
@@ -118,10 +122,14 @@ bidsy.App.prototype.onCategory_ = function(e) {
   this.rightSidebar_.wipe();
   bidsy.Client.getInstance().joinRoom({ category: e['category'] },
       function(response) {
-        if (response['auctions'].length > 0) {
+        if (response['auctions'] && response['auctions'].length > 0) {
           // TODO(gareth): Can we pass context here?
           bidsy.App.getInstance().mainContainer_.show(response['auctions'][0]);
           bidsy.App.getInstance().rightSidebar_.show(response['auctions']);
+        }
+
+        if (response['userDeltas']) {
+          bidsy.App.getInstance().mainContainer_.onUserDeltas(response['userDeltas']);
         }
       });
 };
@@ -161,6 +169,15 @@ bidsy.App.prototype.onSell_ = function(e) {
 bidsy.App.prototype.onUpcoming_ = function(e) {
   this.mainContainer_.wipeAuction();
   this.mainContainer_.show(e['auction']);
+};
+
+
+/**
+ * @param {goog.events.Event} e is the UPCOMING event.
+ * @private
+ */
+bidsy.App.prototype.onUserDeltas_ = function(e) {
+  this.mainContainer_.onUserDeltas(e['data']);
 };
 
 
