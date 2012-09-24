@@ -13,18 +13,17 @@ goog.addSingletonGetter(bidsy.Client);
 
 /**
  * Establishes a connection to the socket.io server.
+ * @param {string} env One of 'dev' or 'prod'.
  */
-bidsy.Client.prototype.init = function() {
-  // TODO(gareth): Move metadata about which socket host to connect to
-  // into metadata that gets passed into the closure app.
+bidsy.Client.prototype.init = function(env) {
   /**
    * @type {io.SocketNamespace}
    * @private
    */
-  // this.socket_ = io.connect('http://localhost', {
-  this.socket_ = io.connect('http://staging.auctet.com', {
-      'sync disconnect on unload': true
-  });
+  this.socket_ = io.connect(
+      'http://' + (env == 'prod' ? 'staging.auctet.com' : 'localhost')
+    , { 'sync disconnect on unload': true }
+  );
 
   this.socket_.on('userDeltas', goog.bind(this.onUserDeltas_, this));
 };
