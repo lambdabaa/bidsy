@@ -116,7 +116,7 @@ goog.exportSymbol('bidsy.App.getInstance', bidsy.App.getInstance);
 bidsy.App.prototype.onCategory_ = function(e) {
   this.mainContainer_.wipe();
   this.rightSidebar_.wipe();
-  bidsy.Client.getInstance().joinRoom({ 'category': e['category'] },
+  bidsy.Client.getInstance().joinRoom({ category: e['category'] },
       function(response) {
         if (response['auctions'].length > 0) {
           // TODO(gareth): Can we pass context here?
