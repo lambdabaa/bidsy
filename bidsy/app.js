@@ -105,6 +105,16 @@ bidsy.App = function() {
       this.sellContainer_
   ];
 
+  /**
+   * @type {Object}
+   * @private
+   */
+  this.user_ = null;
+
+  goog.events.listen(bidsy.Client.getInstance(),
+                     bidsy.Client.EventType.WHOAMI,
+                     this.onWhoami_, false, this);
+
   goog.events.listen(bidsy.Client.getInstance(),
                      bidsy.Client.EventType.USER_DELTAS,
                      this.onUserDeltas_, false, this);
@@ -118,20 +128,21 @@ goog.exportSymbol('bidsy.App.getInstance', bidsy.App.getInstance);
  * @private
  */
 bidsy.App.prototype.onCategory_ = function(e) {
+  function onResponse(response) {
+    if (response['auctions'] && response['auctions'].length > 0) {
+      this.mainContainer_.show(response['auctions'][0]);
+      this.rightSidebar_.show(response['auctions']);
+    }
+
+    if (response['userDeltas']) {
+      this.mainContainer_.onUserDeltas(response['userDeltas']);
+    }
+  }
+
   this.mainContainer_.wipe();
   this.rightSidebar_.wipe();
-  bidsy.Client.getInstance().joinRoom({ category: e['category'] },
-      function(response) {
-        if (response['auctions'] && response['auctions'].length > 0) {
-          // TODO(gareth): Can we pass context here?
-          bidsy.App.getInstance().mainContainer_.show(response['auctions'][0]);
-          bidsy.App.getInstance().rightSidebar_.show(response['auctions']);
-        }
-
-        if (response['userDeltas']) {
-          bidsy.App.getInstance().mainContainer_.onUserDeltas(response['userDeltas']);
-        }
-      });
+  bidsy.Client.getInstance().joinRoom(
+      { category: e['category'] }, goog.bind(onResponse, this));
 };
 
 
@@ -158,6 +169,11 @@ bidsy.App.prototype.onLogo_ = function(e) {
  * @private
  */
 bidsy.App.prototype.onSell_ = function(e) {
+  if (!this.user_) {
+    alert('You must be logged in to sell something.');
+    return;
+  }
+
   this.setMode_(bidsy.App.Mode.SELL);
 };
 
@@ -173,11 +189,20 @@ bidsy.App.prototype.onUpcoming_ = function(e) {
 
 
 /**
- * @param {goog.events.Event} e is the UPCOMING event.
+ * @param {goog.events.Event} e is the USER_DELTAS event.
  * @private
  */
 bidsy.App.prototype.onUserDeltas_ = function(e) {
   this.mainContainer_.onUserDeltas(e['data']);
+};
+
+
+/**
+ * @param {goog.events.Event} e is the WHOAMI event.
+ * @private
+ */
+bidsy.App.prototype.onWhoami_ = function(e) {
+  this.user_ = e['data'];
 };
 
 

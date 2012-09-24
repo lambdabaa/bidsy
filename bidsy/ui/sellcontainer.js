@@ -332,6 +332,11 @@ bidsy.ui.SellContainer.prototype.onItemNext_ = function(e) {
  * @private
  */
 bidsy.ui.SellContainer.prototype.onSellSubmit_ = function(e) {
+  function onResponse(response) {
+    // TODO(gareth)
+    console.log(response);
+  }
+
   var categories = this.getCheckedCategories_();
   var title = this.title_.getElement().value;
   var description = this.description_.getElement().value;
@@ -357,10 +362,7 @@ bidsy.ui.SellContainer.prototype.onSellSubmit_ = function(e) {
     , 'images': images
     , 'duration': duration
     , 'minimum': minimum
-  }, function(response) {
-    // TODO(gareth)
-    console.log(response);
-  });
+  }, goog.bind(onResponse, this));
 
   this.setMode_(bidsy.ui.SellContainer.Mode.SHARE);
 };

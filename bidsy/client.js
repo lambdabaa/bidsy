@@ -37,6 +37,7 @@ bidsy.Client.prototype.init = function(env) {
   );
 
   this.socket_.on('userDeltas', goog.bind(this.onUserDeltas_, this));
+  this.socket_.on('whoami', goog.bind(this.onWhoami_, this));
 };
 
 
@@ -97,6 +98,18 @@ bidsy.Client.prototype.onUserDeltas_ = function(data) {
 
 
 /**
+ * @param {Object} data Data on the current logged in user.
+ * @private
+ */
+bidsy.Client.prototype.onWhoami_ = function(data) {
+  this.dispatchEvent({
+      type: bidsy.Client.EventType.WHOAMI
+    , data: data
+  });
+};
+
+
+/**
  * @param {string} duration Number of days until the auction expires.
  * @return {number} A unix timestamp for when the auction will expire.
  * @private
@@ -108,5 +121,6 @@ bidsy.Client.prototype.parseExpiration_ = function(duration) {
 
 /** @enum {string} */
 bidsy.Client.EventType = {
-  USER_DELTAS: 'user_deltas'
+    USER_DELTAS: 'user_deltas'
+  , WHOAMI: 'whoami'
 };
