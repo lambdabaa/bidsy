@@ -20,6 +20,7 @@ bidsy.Client.prototype.init = function(env) {
    * @type {io.SocketNamespace}
    * @private
    */
+  console.log(env);
   this.socket_ = io.connect(
       'http://' + (env == 'prod' ? 'staging.auctet.com' : 'localhost')
     , { 'sync disconnect on unload': true }
