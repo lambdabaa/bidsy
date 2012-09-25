@@ -43,6 +43,8 @@ bidsy.Client.prototype.init = function(env) {
 
 
 /**
+ * @param {Object} data The newly entered bid.
+ * @param {Function} callback The function to execute when we get server ACK.
  */
 bidsy.Client.prototype.bid = function(data, callback) {
   this.socket_.emit('bid', data, callback);

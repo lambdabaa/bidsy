@@ -103,7 +103,7 @@ bidsy.ui.Pit.prototype.onUserDeltas = function(deltas) {
 
 
 /**
- * @param {number} numPeople
+ * @param {number} numPeople The number of people to display.
  * @private
  */
 bidsy.ui.Pit.prototype.setNumPeople_ = function(numPeople) {

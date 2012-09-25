@@ -2,8 +2,8 @@
 goog.provide('bidsy.ui.Toolbar');
 
 goog.require('bidsy.ui.toolbar');
-goog.require('goog.events');
 goog.require('goog.Timer');
+goog.require('goog.events');
 goog.require('goog.ui.Component');
 
 

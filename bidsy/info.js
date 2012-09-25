@@ -12,7 +12,7 @@ goog.addSingletonGetter(bidsy.Info);
 
 
 /**
- * @return {Object} auction
+ * @return {Object} auction An auction.
  */
 bidsy.Info.prototype.getAuction = function() {
   return this.auction_;
@@ -20,15 +20,15 @@ bidsy.Info.prototype.getAuction = function() {
 
 
 /**
- * @param {Object} auction
+ * @param {Object} auction An auction.
  */
 bidsy.Info.prototype.setAuction = function(auction) {
   this.auction_ = auction;
-}
+};
 
 
 /**
- * @return {Object} user
+ * @return {Object} user A user.
  */
 bidsy.Info.prototype.getUser = function() {
   return this.user_;
@@ -36,8 +36,8 @@ bidsy.Info.prototype.getUser = function() {
 
 
 /**
- * @param {Object} user
+ * @param {Object} user A user.
  */
 bidsy.Info.prototype.setUser = function(user) {
   this.user_ = user;
-}
+};
