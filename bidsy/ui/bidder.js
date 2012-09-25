@@ -30,10 +30,6 @@ bidsy.ui.Bidder.prototype.createDom = function() {
 
 /** @inheritDoc */
 bidsy.ui.Bidder.prototype.decorateInternal = function(element) {
-  if (!this.user_) {
-    return;
-  }
-
   this.setElementInternal(element);
   goog.dom.classes.add(element, 'bidder');
   soy.renderElement(element, bidsy.ui.bidder.main, {

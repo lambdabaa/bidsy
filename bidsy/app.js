@@ -3,6 +3,7 @@ goog.provide('bidsy.App');
 goog.provide('bidsy.App.Mode');
 
 goog.require('bidsy.Client');
+goog.require('bidsy.Info');
 goog.require('bidsy.ui.EventType');
 goog.require('bidsy.ui.LeftSidebar');
 goog.require('bidsy.ui.LeftTopbar');
@@ -105,12 +106,6 @@ bidsy.App = function() {
       this.sellContainer_
   ];
 
-  /**
-   * @type {Object}
-   * @private
-   */
-  this.user_ = null;
-
   goog.events.listen(bidsy.Client.getInstance(),
                      bidsy.Client.EventType.WHOAMI,
                      this.onWhoami_, false, this);
@@ -130,8 +125,11 @@ goog.exportSymbol('bidsy.App.getInstance', bidsy.App.getInstance);
 bidsy.App.prototype.onCategory_ = function(e) {
   function onResponse(response) {
     if (response['auctions'] && response['auctions'].length > 0) {
-      this.mainContainer_.show(response['auctions'][0]);
-      this.rightSidebar_.show(response['auctions']);
+      var auctions = response['auctions'];
+      var auction = auctions[0];
+      bidsy.Info.getInstance().setAuction(auction);
+      this.mainContainer_.show(auction);
+      this.rightSidebar_.show(auctions);
     }
 
     if (response['userDeltas']) {
@@ -169,7 +167,7 @@ bidsy.App.prototype.onLogo_ = function(e) {
  * @private
  */
 bidsy.App.prototype.onSell_ = function(e) {
-  if (!this.user_) {
+  if (!bidsy.Info.getInstance().getUser()) {
     alert('You must be logged in to sell something.');
     return;
   }
@@ -184,7 +182,9 @@ bidsy.App.prototype.onSell_ = function(e) {
  */
 bidsy.App.prototype.onUpcoming_ = function(e) {
   this.mainContainer_.wipeAuction();
-  this.mainContainer_.show(e['auction']);
+  var auction = e['auction'];
+  bidsy.Info.getInstance().setAuction(auction);
+  this.mainContainer_.show(auction);
 };
 
 
@@ -202,7 +202,7 @@ bidsy.App.prototype.onUserDeltas_ = function(e) {
  * @private
  */
 bidsy.App.prototype.onWhoami_ = function(e) {
-  this.user_ = e['data'];
+  bidsy.Info.getInstance().setUser(e['data']);
 };
 
 

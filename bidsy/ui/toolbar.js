@@ -98,7 +98,16 @@ bidsy.ui.Toolbar.prototype.wipe = function() {
  * @private
  */
 bidsy.ui.Toolbar.prototype.onBidClick_ = function(e) {
-  console.log('Bid click...');
+  var amount = parseFloat(this.bidInput_.getElement().value);
+  var auction = bidsy.Info.getInstance().getAuction();
+  bidsy.Client.getInstance().bid({
+      amount: amount
+    , auction: auction['_id']
+  }, function(response) {
+    // TODO(gareth)
+    console.log('Got bid response!');
+    console.log(response);
+  }); 
 };
 
 
@@ -107,7 +116,7 @@ bidsy.ui.Toolbar.prototype.onBidClick_ = function(e) {
  * @private
  */
 bidsy.ui.Toolbar.prototype.onBidInputChange_ = function(e) {
-  console.log('Bid input change...');
+  // TODO(gareth): Validate this
 };
 
 

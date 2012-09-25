@@ -79,15 +79,21 @@ bidsy.ui.Pit.prototype.onUserDeltas = function(deltas) {
     switch (delta['sign']) {
       case '+':
         this.setNumPeople_(this.numPeople_ + 1);
-        var bidder = new bidsy.ui.Bidder(delta['user']);
-        this.addChild(bidder, true);
-        this.socketIdToBidder_[delta['id']] = bidder;
+        if (delta['user']) {
+          var bidder = new bidsy.ui.Bidder(delta['user']);
+          this.addChild(bidder, true);
+          this.socketIdToBidder_[delta['id']] = bidder;
+        }
+
         break;
       case '-':
         this.setNumPeople_(this.numPeople_ - 1);
         var bidder = this.socketIdToBidder_[delta['id']];
-        this.removeChild(bidder, true);
-        delete this.socketIdToBidder_[delta['id']];
+        if (bidder) {
+          this.removeChild(bidder, true);
+          delete this.socketIdToBidder_[delta['id']];
+        }
+
         break;
       default:
         break;

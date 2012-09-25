@@ -36,8 +36,16 @@ bidsy.Client.prototype.init = function(env) {
     , { 'sync disconnect on unload': true }
   );
 
+  this.socket_.on('bid', goog.bind(this.onBid_, this));
   this.socket_.on('userDeltas', goog.bind(this.onUserDeltas_, this));
   this.socket_.on('whoami', goog.bind(this.onWhoami_, this));
+};
+
+
+/**
+ */
+bidsy.Client.prototype.bid = function(data, callback) {
+  this.socket_.emit('bid', data, callback);
 };
 
 
@@ -85,11 +93,20 @@ bidsy.Client.prototype.joinRoom = function(data, callback) {
 
 
 /**
+ * @param {Object} data A new bid in a room we're listening to.
+ * @private
+ */
+bidsy.Client.prototype.onBid_ = function(data) {
+  // TODO(gareth)
+  console.log(data);
+};
+
+
+/**
  * @param {Array} data The collection of user delta objects.
  * @private
  */
 bidsy.Client.prototype.onUserDeltas_ = function(data) {
-  console.log(data);
   this.dispatchEvent({
       type: bidsy.Client.EventType.USER_DELTAS
     , data: data
