@@ -26,6 +26,12 @@ bidsy.ui.Pit = function() {
    * @private
    */
   this.socketIdToBidder_ = {};
+
+  /**
+   * @type {number}
+   * @private
+   */
+  this.numPeople_ = 0;
 };
 goog.inherits(bidsy.ui.Pit, goog.ui.Component);
 
@@ -51,6 +57,7 @@ bidsy.ui.Pit.prototype.show = function(auction) {
  * Wipes the pit.
  */
 bidsy.ui.Pit.prototype.wipe = function() {
+  this.setNumPeople_(0);
   this.toolbar_.wipe();
   this.removeChildren(true);
 };
@@ -71,11 +78,13 @@ bidsy.ui.Pit.prototype.onUserDeltas = function(deltas) {
   goog.array.forEach(deltas, function(delta) {
     switch (delta['sign']) {
       case '+':
+        this.setNumPeople_(this.numPeople_ + 1);
         var bidder = new bidsy.ui.Bidder(delta['user']);
         this.addChild(bidder, true);
         this.socketIdToBidder_[delta['id']] = bidder;
         break;
       case '-':
+        this.setNumPeople_(this.numPeople_ - 1);
         var bidder = this.socketIdToBidder_[delta['id']];
         this.removeChild(bidder, true);
         delete this.socketIdToBidder_[delta['id']];
@@ -84,4 +93,18 @@ bidsy.ui.Pit.prototype.onUserDeltas = function(deltas) {
         break;
     }
   }, this);
+};
+
+
+/**
+ * @param {number} numPeople
+ * @private
+ */
+bidsy.ui.Pit.prototype.setNumPeople_ = function(numPeople) {
+  // TODO(gareth): Move this into a template
+  var element = goog.dom.getElementByClass('num-people');
+  element.innerHTML = '<img src="images/glyphicons_043_group.png" />' +
+                      '<span class="badge badge-info">' + numPeople + '</span>';
+
+  this.numPeople_ = numPeople;
 };

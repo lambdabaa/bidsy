@@ -30,11 +30,14 @@ bidsy.ui.Bidder.prototype.createDom = function() {
 
 /** @inheritDoc */
 bidsy.ui.Bidder.prototype.decorateInternal = function(element) {
+  if (!this.user_) {
+    return;
+  }
+
   this.setElementInternal(element);
   goog.dom.classes.add(element, 'bidder');
   soy.renderElement(element, bidsy.ui.bidder.main, {
-      'avatar': (this.user_ ?
-          'http://graph.facebook.com/' + this.user_['fbuid'] + '/picture' :
-          'images/noprofilepicture.jpeg')
+      avatar: 'http://graph.facebook.com/' + this.user_['fbuid'] +
+              '/picture?type=normal'
   });
 };

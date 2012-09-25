@@ -2,9 +2,9 @@
 goog.provide('bidsy.ui.Toolbar');
 
 goog.require('bidsy.ui.toolbar');
+goog.require('goog.events');
 goog.require('goog.Timer');
 goog.require('goog.ui.Component');
-goog.require('soy');
 
 
 
@@ -14,6 +14,18 @@ goog.require('soy');
  */
 bidsy.ui.Toolbar = function() {
   goog.base(this);
+
+  /**
+   * @type {goog.ui.Component}
+   * @private
+   */
+  this.bid_ = null;
+
+  /**
+   * @type {goog.ui.Component}
+   * @private
+   */
+  this.bidInput_ = null;
 
   /**
    * @type {goog.Timer}
@@ -43,6 +55,17 @@ bidsy.ui.Toolbar.prototype.show = function(auction) {
   });
   goog.dom.appendChild(this.getElement(), /** @type {Node} */ (fragment));
 
+  this.bid_ = new goog.ui.Component();
+  this.bid_.decorate(goog.dom.getElementByClass('btn-bid'));
+  goog.events.listen(this.bid_.getElement(), goog.events.EventType.CLICK,
+                     this.onBidClick_, false, this);
+
+  this.bidInput_ = new goog.ui.Component();
+  this.bidInput_.decorate(goog.dom.getElement('item-bid'));
+  goog.events.listen(this.bidInput_.getElement(),
+                     goog.events.EventType.CHANGE,
+                     this.onBidInputChange_, false, this);
+
   this.timer_ = new goog.Timer(100);
   this.timer_.addEventListener(goog.Timer.TICK,
                                goog.bind(this.showTimeRemaining_, this));
@@ -54,12 +77,37 @@ bidsy.ui.Toolbar.prototype.show = function(auction) {
  * Wipes the toolbar.
  */
 bidsy.ui.Toolbar.prototype.wipe = function() {
+  if (this.bid_) {
+    goog.events.unlisten(this.bid_.getElement(), goog.events.EventType.CLICK,
+                         this.onBidClick_);
+    this.bid_.exitDocument();
+    this.bid_ = null;
+  }
+
   if (this.timer_) {
     this.timer_.stop();
     this.timer_.dispose();
   }
 
   this.getElement().innerHTML = '';
+};
+
+
+/**
+ * @param {goog.events.Event} e The CLICK event.
+ * @private
+ */
+bidsy.ui.Toolbar.prototype.onBidClick_ = function(e) {
+  console.log('Bid click...');
+};
+
+
+/**
+ * @param {goog.events.Event} e The CHANGE event.
+ * @private
+ */
+bidsy.ui.Toolbar.prototype.onBidInputChange_ = function(e) {
+  console.log('Bid input change...');
 };
 
 
@@ -96,30 +144,24 @@ bidsy.ui.Toolbar.prototype.getBid_ = function(auction) {
  */
 bidsy.ui.Toolbar.prototype.getTimeRemaining_ = function(expiration) {
   var remaining = expiration - Math.floor(goog.now() / 1000);
-  var hours = Math.floor(remaining / 3600);
-  remaining -= hours * 3600;
-  hours = hours.toString();
-  while (hours.length < 2) {
-    hours = '0' + hours;
-  }
 
-  var minutes = Math.floor(remaining / 60);
-  remaining -= minutes * 60;
-  minutes = minutes.toString();
-  while (minutes.length < 2) {
-    minutes = '0' + minutes;
-  }
+  var daysToSeconds = 60 * 60 * 24;
+  var days = Math.floor(remaining / daysToSeconds);
+  remaining -= days * daysToSeconds;
 
-  var seconds = Math.floor(remaining);
-  seconds = seconds.toString();
-  while (seconds.length < 2) {
-    seconds = '0' + seconds;
-  }
+  var hoursToSeconds = 60 * 60;
+  var hours = Math.floor(remaining / hoursToSeconds);
+  remaining -= hours * hoursToSeconds;
+
+  var minutesToSeconds = 60;
+  var minutes = Math.floor(remaining / minutesToSeconds);
+  remaining -= minutes * minutesToSeconds;
 
   return {
-      'hours': hours
-    , 'minutes': minutes
-    , 'seconds': seconds
+      days: days
+    , hours: hours
+    , minutes: minutes
+    , seconds: remaining
   };
 };
 
@@ -129,6 +171,19 @@ bidsy.ui.Toolbar.prototype.getTimeRemaining_ = function(expiration) {
  */
 bidsy.ui.Toolbar.prototype.showTimeRemaining_ = function() {
   var r = this.getTimeRemaining_(this.expiration_);
-  goog.dom.getElementByClass('bid-timer').innerHTML =
-      r['hours'] + ':' + r['minutes'] + ':' + r['seconds'];
+  var units = [];
+  if (r['days'] > 0) {
+    units.push(r['days'] + 'd');
+  }
+  if (units.length > 0 || r['hours'] > 0) {
+    units.push(r['hours'] + 'h');
+  }
+  if (units.length > 0 || r['minutes'] > 0) {
+    units.push(r['minutes'] + 'm');
+  }
+  if (r['days'] == 0) {
+    units.push(r['seconds'] + 's');
+  }
+  
+  goog.dom.getElementByClass('bid-timer').innerHTML = units.join(' ');
 };
