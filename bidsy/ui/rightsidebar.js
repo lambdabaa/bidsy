@@ -50,6 +50,14 @@ bidsy.ui.RightSidebar.prototype.wipe = function() {
 
 
 /**
+ * @param {Object} bid Bid data.
+ */
+bidsy.ui.RightSidebar.prototype.onBid = function(bid) {
+  this.upcoming_.onBid(bid);
+};
+
+
+/**
  * @param {goog.events.Event} e The UPCOMING event.
  * @private
  */

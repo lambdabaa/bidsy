@@ -58,6 +58,14 @@ bidsy.ui.MainContainer.prototype.wipe = function() {
 
 
 /**
+ * @param {Object} bid Bid data.
+ */
+bidsy.ui.MainContainer.prototype.onBid = function(bid) {
+  this.pit_.onBid(bid);
+};
+
+
+/**
  * Wipes the main container of all elements related to the current auction.
  */
 bidsy.ui.MainContainer.prototype.wipeAuction = function() {

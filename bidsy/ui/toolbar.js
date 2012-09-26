@@ -94,6 +94,15 @@ bidsy.ui.Toolbar.prototype.wipe = function() {
 
 
 /**
+ * @param {Object} bid Bid data.
+ */
+bidsy.ui.Toolbar.prototype.onBid = function(bid) {
+  goog.dom.getElementByClass('bid-text').innerHTML =
+      '$' + this.stringifyBid_(bid['amount']);
+};
+
+
+/**
  * @param {goog.events.Event} e The CLICK event.
  * @private
  */
@@ -135,14 +144,23 @@ bidsy.ui.Toolbar.prototype.getBid_ = function(auction) {
     }
   }, this);
 
-  high = high.toString() || '0.0';
-  if (high.indexOf('\.') == -1) {
-    high += '.00';
-  } else if (high.split('\.')[1].length == 1) {
-    high += '0';
+  return this.stringifyBid_(high);
+};
+
+
+/**
+ * @param {number} bid
+ * @private
+ */
+bidsy.ui.Toolbar.prototype.stringifyBid_ = function(bid) {
+  var bidString = bid.toString() || '0.0';
+  if (bidString.indexOf('\.') == -1) {
+    bidString += '.00';
+  } else if (bidString.split('\.')[1].length == 1) {
+    bidString += '0';
   }
 
-  return high;
+  return bidString;
 };
 
 

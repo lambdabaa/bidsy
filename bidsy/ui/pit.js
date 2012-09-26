@@ -72,6 +72,14 @@ bidsy.ui.Pit.prototype.wipeAuction = function() {
 
 
 /**
+ * @param {Object} bid Bid data.
+ */
+bidsy.ui.Pit.prototype.onBid = function(bid) {
+  this.toolbar_.onBid(bid);
+};
+
+
+/**
  * @param {Array} deltas An array of user join/leaves.
  */
 bidsy.ui.Pit.prototype.onUserDeltas = function(deltas) {

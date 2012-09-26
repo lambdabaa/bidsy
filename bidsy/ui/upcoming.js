@@ -110,3 +110,17 @@ bidsy.ui.Upcoming.prototype.wipe = function() {
   this.current_ = null;
   this.queuedToAuction_ = {};
 };
+
+
+/**
+ * @param {Object} bid Bid data.
+ */
+bidsy.ui.Upcoming.prototype.onBid = function(bid) {
+  for (var queued in this.queuedToAuction_) {
+    var auction = this.queuedToAuction_[queued];
+    if (auction['_id'] == bid['auction']) {
+      auction['bids'].push(bid);
+      break;
+    }
+  }
+};

@@ -107,15 +107,36 @@ bidsy.App = function() {
   ];
 
   goog.events.listen(bidsy.Client.getInstance(),
-                     bidsy.Client.EventType.WHOAMI,
-                     this.onWhoami_, false, this);
+                     bidsy.Client.EventType.BID,
+                     this.onBid_, false, this);
 
   goog.events.listen(bidsy.Client.getInstance(),
                      bidsy.Client.EventType.USER_DELTAS,
                      this.onUserDeltas_, false, this);
+
+  goog.events.listen(bidsy.Client.getInstance(),
+                     bidsy.Client.EventType.WHOAMI,
+                     this.onWhoami_, false, this);
 };
 goog.addSingletonGetter(bidsy.App);
 goog.exportSymbol('bidsy.App.getInstance', bidsy.App.getInstance);
+
+
+/**
+ * @param {goog.events.Event} e is the BID event.
+ * @private
+ */
+bidsy.App.prototype.onBid_ = function(e) {
+  // TODO(gareth): Update the auction data on things in the queue
+  var bid = e['data'];
+  if (bidsy.Info.getInstance().getAuction()['_id'] == bid['auction']) {
+    // Update the auction currently shown on the toolbar
+    this.mainContainer_.onBid(e['data']);
+  }
+
+  // Update the auction data on things in the queue
+  this.rightSidebar_.onBid(e['data']);
+};
 
 
 /**
