@@ -99,8 +99,10 @@ bidsy.Client.prototype.joinRoom = function(data, callback) {
  * @private
  */
 bidsy.Client.prototype.onBid_ = function(data) {
-  // TODO(gareth)
-  console.log(data);
+  this.dispatchEvent({
+      type: bidsy.Client.EventType.BID
+    , data: data
+  });
 };
 
 
@@ -140,6 +142,7 @@ bidsy.Client.prototype.parseExpiration_ = function(duration) {
 
 /** @enum {string} */
 bidsy.Client.EventType = {
-    USER_DELTAS: 'user_deltas'
+    BID: 'bid'
+  , USER_DELTAS: 'user_deltas'
   , WHOAMI: 'whoami'
 };

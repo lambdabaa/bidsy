@@ -107,10 +107,10 @@ bidsy.ui.Pit.prototype.onUserDeltas = function(deltas) {
  * @private
  */
 bidsy.ui.Pit.prototype.setNumPeople_ = function(numPeople) {
-  // TODO(gareth): Move this into a template
   var element = goog.dom.getElementByClass('num-people');
-  element.innerHTML = '<img src="images/glyphicons_043_group.png" />' +
-                      '<span class="badge badge-info">' + numPeople + '</span>';
+  element.innerHTML = (numPeople > 0) ?
+      ('<img src="images/glyphicons_043_group.png" />' +
+       '<span class="badge badge-info">' + numPeople + '</span>') : '';
 
   this.numPeople_ = numPeople;
 };
